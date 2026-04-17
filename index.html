@@ -19,7 +19,7 @@ async function upload() {
     fd.append("file", file);
     fd.append("name", name);
 
-    let res = await fetch("https://your-app.up.railway.app/register", {
+    let res = await fetch("https://face-api-z57y.onrender.com/register", {
         method: "POST",
         body: fd
     });

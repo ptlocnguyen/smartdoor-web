@@ -1,31 +1,172 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Face AI System</title>
+
+<style>
+body {
+    font-family: Arial;
+    text-align: center;
+    background: #0f172a;
+    color: white;
+}
+
+.container {
+    margin-top: 40px;
+}
+
+.box {
+    background: #1e293b;
+    padding: 20px;
+    margin: 20px auto;
+    width: 300px;
+    border-radius: 10px;
+}
+
+button {
+    padding: 10px;
+    margin-top: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    background: #3b82f6;
+    color: white;
+    font-size: 16px;
+}
+
+input {
+    padding: 8px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.result {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #22c55e;
+}
+</style>
+
+</head>
+
 <body>
 
-<h2>Register Face</h2>
+<h1>Face Recognition System</h1>
 
-<input id="name" placeholder="Name"><br><br>
-<input type="file" id="file"><br><br>
+<div class="container">
 
-<button onclick="upload()">Upload</button>
+    <!-- REGISTER -->
+    <div class="box">
+        <h3>Đăng ký khuôn mặt</h3>
+
+        <input id="name" placeholder="Nhập tên">
+        <input type="file" id="file_reg">
+
+        <button onclick="register()">Đăng ký</button>
+
+        <div id="reg_result" class="result"></div>
+    </div>
+
+    <!-- RECOGNIZE -->
+    <div class="box">
+        <h3>Test nhận diện</h3>
+
+        <input type="file" id="file_rec">
+
+        <button onclick="recognize()">Nhận diện</button>
+
+        <div id="rec_result" class="result"></div>
+    </div>
+
+</div>
 
 <script>
-async function upload() {
 
-    let file = document.getElementById("file").files[0];
+const API = "https://your-api.onrender.com"; // ⚠️ THAY URL
+
+// ================= REGISTER =================
+async function register() {
+
+    let file = document.getElementById("file_reg").files[0];
     let name = document.getElementById("name").value;
+
+    if (!file || !name) {
+        alert("Nhập tên và chọn ảnh");
+        return;
+    }
 
     let fd = new FormData();
     fd.append("file", file);
     fd.append("name", name);
 
-    let res = await fetch("https://face-api-z57y.onrender.com/register", {
-        method: "POST",
-        body: fd
-    });
+    document.getElementById("reg_result").innerText = "Đang xử lý...";
 
-    alert(await res.text());
+    try {
+        let res = await fetch(API + "/register", {
+            method: "POST",
+            body: fd
+        });
+
+        let txt = await res.text();
+
+        document.getElementById("reg_result").innerText = txt;
+
+    } catch (e) {
+        document.getElementById("reg_result").innerText = "Lỗi kết nối";
+    }
 }
+
+// ================= RECOGNIZE =================
+async function recognize() {
+
+    let file = document.getElementById("file_rec").files[0];
+
+    if (!file) {
+        alert("Chọn ảnh");
+        return;
+    }
+
+    document.getElementById("rec_result").innerText = "Đang xử lý...";
+
+    try {
+
+        // gọi AI trước
+        let fd = new FormData();
+        fd.append("file", file);
+
+        let ai = await fetch("https://bufalo-api-973102760389.asia-southeast1.run.app/predict", {
+            method: "POST",
+            body: fd
+        });
+
+        let aiData = await ai.json();
+
+        if (!aiData.embedding) {
+            document.getElementById("rec_result").innerText = "Không phát hiện khuôn mặt";
+            return;
+        }
+
+        // gửi embedding lên server
+        let res = await fetch(API + "/recognize", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                embedding: aiData.embedding
+            })
+        });
+
+        let data = await res.json();
+
+        document.getElementById("rec_result").innerText = "Kết quả: " + data.name;
+
+    } catch (e) {
+        document.getElementById("rec_result").innerText = "Lỗi hệ thống";
+    }
+}
+
 </script>
 
 </body>

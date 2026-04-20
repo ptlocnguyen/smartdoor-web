@@ -1,0 +1,1 @@
+const API = "https://face-api-z57y.onrender.com"

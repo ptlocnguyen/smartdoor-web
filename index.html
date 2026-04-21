@@ -1,69 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Smart Lock AI</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Smart Door</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="header">Smart Lock AI</div>
+<h2>Đăng ký khuôn mặt</h2>
 
-<div class="nav">
-    <button onclick="showTab('users')">User</button>
-    <button onclick="showTab('register')">Đăng ký mặt</button>
-    <button onclick="showTab('recognize')">Nhận diện</button>
-    <button onclick="showTab('logs')">Logs</button>
-</div>
+<input type="text" id="user_code" placeholder="Nhập user_code">
+<br><br>
 
-<div class="container">
+<input type="file" id="files" multiple>
+<br><br>
 
-    <!-- USERS -->
-    <div id="users" class="tab">
-        <h2>Tạo User</h2>
-        <input id="u_name" placeholder="Tên">
-        <input id="u_phone" placeholder="SĐT">
-        <button onclick="createUser()">Tạo</button>
+<button onclick="registerFace()">Đăng ký</button>
 
-        <div id="createdUser"></div>
+<p id="register_result"></p>
 
-        <h3>Danh sách</h3>
-        <div id="userList"></div>
-    </div>
+<hr>
 
-    <!-- REGISTER FACE -->
-    <div id="register" class="tab" style="display:none;">
-        <h2>Đăng ký khuôn mặt</h2>
+<h2>Test nhận diện</h2>
 
-        <select id="userSelect"></select>
-        <input id="faceFiles" type="file" multiple>
-        <button onclick="registerFaceUI()">Upload</button>
-    </div>
+<input type="file" id="test_file">
+<br><br>
 
-    <!-- RECOGNIZE -->
-    <div id="recognize" class="tab" style="display:none;">
-        <h2>Nhận diện</h2>
+<button onclick="recognize()">Nhận diện</button>
 
-        <input id="recognizeFile" type="file">
-        <button onclick="recognize()">Nhận diện</button>
+<p id="recognize_result"></p>
 
-        <video id="video" width="240" autoplay></video>
-        <button onclick="capture()">Webcam</button>
+<script src="app.js"></script>
 
-        <div id="result"></div>
-    </div>
-
-    <!-- LOGS -->
-    <div id="logs" class="tab" style="display:none;">
-        <h2>Lịch sử</h2>
-        <button onclick="loadLogs()">Refresh</button>
-        <div id="logList"></div>
-    </div>
-
-</div>
-
-<script src="js/config.js"></script>
-<script src="js/api.js"></script>
-<script src="js/main.js"></script>
 </body>
 </html>

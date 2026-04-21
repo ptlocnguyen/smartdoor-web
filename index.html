@@ -1,36 +1,61 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Smart Door</title>
+    <title>SmartDoor Admin</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2>Đăng ký khuôn mặt</h2>
+<h1>Smart Door Admin</h1>
 
-<input type="text" id="user_code" placeholder="Nhập user_code">
-<br><br>
+<div class="tabs">
+    <button onclick="showTab('users')">Users</button>
+    <button onclick="showTab('faces')">Faces</button>
+    <button onclick="showTab('logs')">Logs</button>
+</div>
 
-<input type="file" id="files" multiple>
-<br><br>
+<!-- USERS -->
+<div id="users" class="tab">
+    <h2>Quản lý User</h2>
 
-<button onclick="registerFace()">Đăng ký</button>
+    <input id="new_code" placeholder="User Code">
+    <input id="new_name" placeholder="Full Name">
+    <button onclick="createUser()">Tạo User</button>
 
-<p id="register_result"></p>
+    <ul id="user_list"></ul>
+</div>
 
-<hr>
+<!-- FACE -->
+<div id="faces" class="tab" style="display:none;">
+    <h2>Đăng ký khuôn mặt</h2>
 
-<h2>Test nhận diện</h2>
+    <select id="face_user"></select>
+    <input type="file" id="face_files" multiple>
 
-<input type="file" id="test_file">
-<br><br>
+    <button onclick="registerFace()">Upload Face</button>
 
-<button onclick="recognize()">Nhận diện</button>
+    <pre id="face_result"></pre>
+</div>
 
-<p id="recognize_result"></p>
+<!-- LOG -->
+<div id="logs" class="tab" style="display:none;">
+    <h2>Lịch sử</h2>
+    <button onclick="loadLogs()">Load Logs</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Method</th>
+                <th>Result</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody id="log_table"></tbody>
+    </table>
+</div>
 
 <script src="app.js"></script>
-
 </body>
 </html>

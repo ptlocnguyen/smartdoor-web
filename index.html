@@ -15,6 +15,7 @@
     <button onclick="showTab('users')">Users</button>
     <button onclick="showTab('faces')">Faces</button>
     <button onclick="showTab('logs')">Logs</button>
+    <button onclick="showTab('recognize')">Recognize</button>
 </div>
 
 <div class="main">
@@ -71,6 +72,17 @@
         </thead>
         <tbody id="log_table"></tbody>
     </table>
+</div>
+
+    <!-- RECOGNIZE -->
+<div id="recognize" class="tab" style="display:none;">
+    <h2>Nhận diện khuôn mặt</h2>
+
+    <input type="file" id="rec_file">
+
+    <button onclick="recognize()">Nhận diện</button>
+
+    <pre id="rec_result"></pre>
 </div>
 
 </div>

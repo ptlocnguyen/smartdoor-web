@@ -1,39 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <title>SmartDoor Admin</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartDoor Admin</title>
+<link rel="stylesheet" href="style.css">
+<script src="app.js" defer></script>
 </head>
+
 <body>
 
-<h1>Smart Door Admin</h1>
-
-<div class="tabs">
+<div class="sidebar">
+    <h2>SmartDoor</h2>
     <button onclick="showTab('users')">Users</button>
     <button onclick="showTab('faces')">Faces</button>
     <button onclick="showTab('logs')">Logs</button>
 </div>
 
+<div class="main">
+
 <!-- USERS -->
 <div id="users" class="tab">
     <h2>Quản lý User</h2>
 
-    <input id="new_code" placeholder="User Code">
-    <input id="new_name" placeholder="Full Name">
-    <button onclick="createUser()">Tạo User</button>
+    <div class="form">
+        <input id="code" placeholder="User Code">
+        <input id="name" placeholder="Full Name">
+        <button onclick="createUser()">Tạo</button>
+        <button onclick="updateUser()">Cập nhật</button>
+        <button onclick="deleteUser()">Xóa</button>
+    </div>
 
-    <ul id="user_list"></ul>
+    <table>
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody id="user_table"></tbody>
+    </table>
 </div>
 
 <!-- FACE -->
 <div id="faces" class="tab" style="display:none;">
-    <h2>Đăng ký khuôn mặt</h2>
+    <h2>Quản lý khuôn mặt</h2>
 
     <select id="face_user"></select>
     <input type="file" id="face_files" multiple>
 
-    <button onclick="registerFace()">Upload Face</button>
+    <button onclick="registerFace()">Upload</button>
+    <button onclick="deleteFace()">Xóa embedding</button>
 
     <pre id="face_result"></pre>
 </div>
@@ -41,7 +58,7 @@
 <!-- LOG -->
 <div id="logs" class="tab" style="display:none;">
     <h2>Lịch sử</h2>
-    <button onclick="loadLogs()">Load Logs</button>
+    <button onclick="loadLogs()">Refresh</button>
 
     <table>
         <thead>
@@ -56,6 +73,7 @@
     </table>
 </div>
 
-<script src="app.js"></script>
+</div>
+
 </body>
 </html>
